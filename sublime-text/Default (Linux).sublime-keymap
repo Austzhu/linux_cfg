@@ -1,0 +1,19 @@
+[
+	{
+		"command": "navigate_to_definition",
+		"keys": ["ctrl+w"]
+	},
+	{
+		"command": "jump_prev",
+		"keys": ["ctrl+q"]
+	},
+	{
+		"command": "show_panel", "args": {"panel": "find_in_files"} ,
+		"keys": ["ctrl+alt+f"]
+
+	},
+	{
+		"command": "prompt_select_workspace",
+		"keys": ["ctrl+tab"]
+	},
+]
