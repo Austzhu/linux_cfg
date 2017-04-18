@@ -16,4 +16,10 @@
 		"command": "prompt_select_workspace",
 		"keys": ["ctrl+tab"]
 	},
+	{
+		"keys":["ctrl+alt+up"],"command":"select_lines","args":{"forward":false}
+	},
+	{
+		"keys":["ctrl+alt+down"],"command":"select_lines","args":{"forward":true}
+	},
 ]
