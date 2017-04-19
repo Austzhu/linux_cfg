@@ -317,3 +317,12 @@ endfunction
 if has("autocmd")
     autocmd FileType c,cpp,h,hh call KRIndent()
 endif
+
+let Tlist_Show_One_File=1  
+let Tlist_Exit_OnlyWindow=1 
+let Tlist_Use_Right_Window=0
+let Tlist_File_Fold_Auto_Close=1
+let g:winManagerWindowLayout='FileExplorer|TagList'
+
+set tags=./.tags
+

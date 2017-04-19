@@ -6,4 +6,4 @@ LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/$QTDIR/5.8/gcc_64/lib
 #CPATH=`find /opt/Qt5.8.0/5.8/gcc_64/include/ -maxdepth 1 -type d |tr "\n" ":"`
 CPATH=`find /opt/Qt5.8.0/5.8/gcc_64/include/ -maxdepth 1 -type d |sed ':loop; N;$ !b loop; s/\n/:/g'`
 CPLUS_INCLUDE_PATH=$CPATH
-export QTDIR PATH LD_LIBRARY_PATH CPATH CPLUS_INCLUDE_PATH
+export QTDIR PATH LD_LIBRARY_PATH CPLUS_INCLUDE_PATH

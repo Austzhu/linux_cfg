@@ -88,7 +88,7 @@ fi
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # some more ls aliases
-alias ll='ls -alF'
+alias ll='ls -alFh'
 alias la='ls -A'
 alias l='ls -CF'
 
@@ -127,11 +127,14 @@ export LC_CTYPE=zh_CN.UTF-8
 
 alias gs='git status'
 alias gm='git commit'
-alias gl='git log'
+alias gl='git log -20 --pretty=format:"%C(yellow)%h%Creset - %Cred<%an> %Cblue%s %Cgreen%cr"'
 
+alias calc='galculator >/dev/null 2>&1 &'
 #set environment for qt
 if [ -f ./.Qtrc ] ; then
     . ./.Qtrc
 fi
+
+
 
 
