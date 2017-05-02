@@ -131,11 +131,13 @@ alias gl='git log -20 --pretty=format:"%C(yellow)%h%Creset - %Cred<%an> %Cblue%s
 
 alias calc='galculator >/dev/null 2>&1 &'
 alias lantern='lantern >/dev/null 2>&1 &'
+
+#export LD_LIBRARY_PATH=/usr/local/tcl/lib
+
 #set environment for qt
 if [ -f ./.Qtrc ] ; then
     . ./.Qtrc
 fi
-
 
 
 
