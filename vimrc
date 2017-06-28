@@ -140,8 +140,8 @@ au BufRead,BufNewFile *  setfiletype txt
 :inoremap ( ()<ESC>i
 :inoremap { {}<ESC>i
 :inoremap [ []<ESC>i
-:inoremap " ""<ESC>i
-:inoremap ' ''<ESC>i
+":inoremap " ""<ESC>i
+":inoremap ' ''<ESC>i
 
 "设置Taglist
 let Tlist_Sort_Type = "name"    " 按照名称排序
@@ -165,10 +165,10 @@ nnoremap <leader>f :%s/\s\+$//<cr>
 set background=dark
 
 
-:nnoremap a i
-:nnoremap i k
-:nnoremap k j
-:nnoremap j h
+":nnoremap a i
+":nnoremap i k
+":nnoremap k j
+":nnoremap j h
 
 :map! <C-w> <ESC> :po <cr> i
 :map  <C-w>       :po <cr>
