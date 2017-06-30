@@ -128,14 +128,22 @@ export LC_CTYPE=zh_CN.UTF-8
 alias gs='git status'
 alias gm='git commit'
 alias gl='git log -20 --pretty=format:"%C(yellow)%h%Creset - %Cred<%an> %Cblue%s %Cgreen%cr"'
+alias gb='git branch'
+alias gd='git diff'
+alias f='find . -name'
 
 alias calc='galculator >/dev/null 2>&1 &'
 alias lantern='lantern >/dev/null 2>&1 &'
+
+#export LD_LIBRARY_PATH=/usr/local/tcl/lib
+
 #set environment for qt
 if [ -f ./.Qtrc ] ; then
     . ./.Qtrc
 fi
 
+alias repo_v1.9='repo init -u http://192.168.110.254/git/goxceed/manifests.git -b v1.9-dev'
+alias makeenv='export ARCH=arm CROSS_COMPILE=arm-none-eabi-'
+alias makeuboot='make distclean && make robot_defconfig && make -j'
 
-
-
+export TERM=xterm-256color
