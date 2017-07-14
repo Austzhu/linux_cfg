@@ -61,6 +61,8 @@ let Tlist_Exit_OnlyWindow = 1         " 如果taglist窗口是最后一个窗口
 let Tlist_Auto_Open=0
 let Tlist_Ctags_Cmd = '/usr/bin/ctags'
 
+autocmd QuitPre      * :%s/\s\+$//g   " 保存退出时删除尾部空格
+"autocmd BufWritePre *  :%s/\s\+$//g  " 保存时删除尾部空格
 filetype     on                       " 侦测文件类型
 filetype     indent on                " 为特定文件类型载入相关缩进文件
 filetype     plugin on                " 允许插件
@@ -108,6 +110,7 @@ func SetTitle()                                    "定义函数SetTitle，自�
 	"新建文件后，自动定位到文件末尾
 	autocmd BufNewFile * normal G
 endfunc
+
 
 set mouse=v
 "set selection=exclusive
