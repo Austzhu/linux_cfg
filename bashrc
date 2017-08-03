@@ -115,7 +115,12 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-export PS1="\[\e[36m\]\u@Austzhu: \[\e[32m\]\W\$\[\e[0m\]  "
+export PS1="\[\e[36m\]\u@Austzhu: \[\e[32m\]\W \[\e[31m\]💓\[\e[0m\]  "
+#export PS1="\[\e[36m\]\u@Austzhu: \[\e[32m\]\W ❦\[\e[0m\]  "
+#export PS1="\[\e[36m\]\u@Austzhu: \[\e[32m\]\W ☣\[\e[0m\]  "
+#export PS1="\[\e[36m\]\u@Austzhu: \[\e[32m\]\W  ☪\[\e[0m\]  "
+#export PS1="\[\e[36m\]\u@Austzhu: \[\e[32m\]\W ⤴\[\e[0m\]  "
+
 alias c=clear
 PATH=$PATH:/usr/local/compiler/csky-linux/bin
 PATH=$PATH:/usr/local/compiler/csky-ecos/csky-elf/bin
@@ -130,11 +135,13 @@ alias gm='git commit'
 alias gl='git log -20 --pretty=format:"%C(yellow)%h%Creset - %Cred<%an> %Cblue%s %Cgreen%cr"'
 alias gb='git branch'
 alias gd='git diff'
+alias gdff='git diff'
 alias f='find . -name'
 
 alias calc='galculator >/dev/null 2>&1 &'
 alias lantern='lantern >/dev/null 2>&1 &'
 
+#nautilus 资源管理器gui命令
 #export LD_LIBRARY_PATH=/usr/local/tcl/lib
 
 #set environment for qt

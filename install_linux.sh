@@ -14,12 +14,12 @@ read -p "是否要解决登陆不能登入root问题.  y?n  " flag
 if [ "$flag" == "y" -o "$flag" == "" ];then
 	#解决ubuntu不能登入root用户的问题
 	echo "greeter-show-manual-login=true" >>/usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
-	
+
 	#解决 stdin：is not a tty
 	sed -i 's/mesg n/tty -s && mesg n/' /root/.profile
 	#创建软连接
 	ln -s /mnt/hgfs/winshare ~/winshare
-fi 
+fi
 
 read -p "是否要安装sublime_text.  y?n  " flag
 if [ "$flag" == "y" -o "$flag" == "" ];then
@@ -59,7 +59,7 @@ if [ "$flag" == "y" -o "$flag" == "" ];then
 	echo "#include <gtk/gtk.h>
 	#include <gdk/gdkx.h>
 	typedef GdkSegment GdkRegionBox;
-	 
+
 	struct _GdkRegion
 	{
 	  long size;
@@ -67,14 +67,14 @@ if [ "$flag" == "y" -o "$flag" == "" ];then
 	  GdkRegionBox *rects;
 	  GdkRegionBox extents;
 	};
-	 
+
 	GtkIMContext *local_context;
-	 
+
 	void gdk_region_get_clipbox (const GdkRegion *region,GdkRectangle    *rectangle)
 	{
 	  g_return_if_fail (region != NULL);
 	  g_return_if_fail (rectangle != NULL);
-	 
+
 	  rectangle->x = region->extents.x1;
 	  rectangle->y = region->extents.y1;
 	  rectangle->width = region->extents.x2 - region->extents.x1;
@@ -90,10 +90,10 @@ if [ "$flag" == "y" -o "$flag" == "" ];then
 	        gtk_im_context_set_cursor_location(local_context, rectangle);
 	  }
 	}
-	 
+
 	//this is needed, for example, if you input something in file dialog and return back the edit area
 	//context will lost, so here we set it again.
-	 
+
 	static GdkFilterReturn event_filter (GdkXEvent *xevent, GdkEvent *event, gpointer im_context)
 	{
 	    XEvent *xev = (XEvent *)xevent;
@@ -104,7 +104,7 @@ if [ "$flag" == "y" -o "$flag" == "" ];then
 	    }
 	    return GDK_FILTER_CONTINUE;
 	}
-	 
+
 	void gtk_im_context_set_client_window (GtkIMContext *context,GdkWindow    *window)
 	{
 	  GtkIMContextClass *klass;
@@ -112,7 +112,7 @@ if [ "$flag" == "y" -o "$flag" == "" ];then
 	  klass = GTK_IM_CONTEXT_GET_CLASS (context);
 	  if (klass->set_client_window)
 	    klass->set_client_window (context, window);
-	 
+
 	  if(!GDK_IS_WINDOW (window))
 	    return;
 	  g_object_set_data(G_OBJECT(context),\"window\",window);
@@ -213,7 +213,7 @@ if [ "$flag" == "y" -o "$flag" == ""  ];then
 	apt-get install nfs-kernel-server -y
 	apt-get install nfs-common -y
 	echo "/rootfs *(rw,sync,no_root_squash,no_subtree_check)" >> /etc/exports
-	mkdir /rootfs 
+	mkdir /rootfs
 	chmod 777 /rootfs -R
 	showmount -e
 	exportfs -r
