@@ -1,7 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/home/Austzhu/goxceed/v1.9-dev/ecos3.0'
-let g:netrw_dirhist_2='/home/Austzhu/goxceed/ucos/ucos_nds/driver/flash'
-let g:netrw_dirhist_3='/home/Austzhu/goxceed/ucos/ucos_nds/driver'
-let g:netrw_dirhist_4='/home/Austzhu/goxceed/ucos/ucos_nds/driver/include'
-let g:netrw_dirhist_5='/home/Austzhu/goxceed/ucos/ucos_nds'

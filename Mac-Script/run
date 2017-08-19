@@ -1,0 +1,27 @@
+#!/bin/bash
+
+case `basename $0` in
+	qq)        /Applications/QQ.app/Contents/MacOS/QQ                                    $@ > /dev/null 2>&1 & ;;
+	chrome)    /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome            $@ > /dev/null 2>&1 & ;;
+	calc)      /Applications/Calculator.app/Contents/MacOS/Calculator                    $@ > /dev/null 2>&1 & ;;
+	facetime)  /Applications/FaceTime.app/Contents/MacOS/FaceTime                        $@ > /dev/null 2>&1 & ;;
+	pdf)       /Applications/Foxit\ Reader.app/Contents/MacOS/FoxitReader                $@ > /dev/null 2>&1 & ;;
+	qqlive)    /Applications/QQLive.app/Contents/MacOS/QQLive                            $@ > /dev/null 2>&1 & ;;
+	music)     /Applications/QQMusic.app/Contents/MacOS/QQMusic                          $@ > /dev/null 2>&1 & ;;
+	show)      /Applications/Preview.app/Contents/MacOS/Preview                          $@ > /dev/null 2>&1 & ;;
+	word)      /Applications/Microsoft\ Word.app/Contents/MacOS/Microsoft\ Word          $@ > /dev/null 2>&1 & ;;
+	excel)     /Applications/Microsoft\ Excel.app/Contents/MacOS/Microsoft\ Excel        $@ > /dev/null 2>&1 & ;;
+	dic)       /Applications/有道词典.app/Contents/MacOS/有道词典                        $@ > /dev/null 2>&1 & ;;
+	vpn)       /Applications/Lantern.app/Contents/MacOS/lantern                          $@ > /dev/null 2>&1 & ;;
+	lantern)   /Applications/Lantern.app/Contents/MacOS/lantern                          $@ > /dev/null 2>&1 & ;;
+	system)    /Applications/System\ Preferences.app/Contents/MacOS/System\ Preferences  $@ > /dev/null 2>&1 & ;;
+	terminal)  /Applications/Utilities/Terminal.app/Contents/MacOS/Terminal              $@ > /dev/null 2>&1 & ;;
+	iTerm)     /Applications/iTerm.app/Contents/MacOS/iTerm2                             $@ > /dev/null 2>&1 & ;;
+	subl)      /Applications/SublimeText.app/Contents/MacOS/Sublime\ Text                $@ > /dev/null 2>&1 & ;;
+	meld)      /Applications/Meld.app/Contents/MacOS/Meld                                $@ > /dev/null 2>&1 & ;;
+	plist)     sudo /Applications/PlistEdit\ Pro.app/Contents/MacOS/PlistEdit\ Pro       $@ ;;
+	*)         echo "unknow command "`basename $0` ;;
+esac
+
+exit 0
+
