@@ -32,7 +32,7 @@ fi
 read -p "是否要安装搜狗输入法.  y?n  " flag
 if [ "$flag" == "y" -o "$flag" == "" ];then
 	echo "确认sogoupinyin安装包的路径..."
-	SOGOUDIR=~/winshare/x64/sogoupinyin_2.0.0.0068_amd64.deb
+	SOGOUDIR=./soft/sogoupinyin_2.1.0.0086_amd64.deb
 	read -p "默认路径${SOGOUDIR} y?n  " flag
 	if [ "$flag" != "y" ];then
 		echo "输入sogoupinyin路径"
