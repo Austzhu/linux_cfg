@@ -116,10 +116,6 @@ if ! shopt -oq posix; then
   fi
 fi
 export PS1="\[\e[36m\]\u@Austzhu: \[\e[32m\]\W \[\e[31m\]💓\[\e[0m\]  "
-#export PS1="\[\e[36m\]\u@Austzhu: \[\e[32m\]\W 💞\[\e[0m\]  "
-#export PS1="\[\e[36m\]\u@Austzhu: \[\e[32m\]\W ☣\[\e[0m\]  "
-#export PS1="\[\e[36m\]\u@Austzhu: \[\e[32m\]\W  ☪\[\e[0m\]  "
-#export PS1="\[\e[36m\]\u@Austzhu: \[\e[32m\]\W ⤴\[\e[0m\]  "
 
 alias c=clear
 PATH=$PATH:/usr/local/compiler/csky-linux/bin
@@ -142,7 +138,6 @@ alias calc='galculator >/dev/null 2>&1 &'
 alias lantern='lantern >/dev/null 2>&1 &'
 
 #nautilus 资源管理器gui命令
-#export LD_LIBRARY_PATH=/usr/local/tcl/lib
 
 #set environment for qt
 if [ -f ./.Qtrc ] ; then

@@ -29,6 +29,7 @@ set smartindent                       " 为C程序提供自动缩进
 set tags=tags;                        " 设置 tags
 set autochdir                         " ctags 在跳转时找不到ctags文件会自动去父目录找
 set background=dark                   " 主题设置成黑模式
+"set relativenumber                   " 启用相对行号
 
 let Tlist_Sort_Type = "name"          " 按照名称排序
 let Tlist_Use_Right_Window = 0        " 在右侧显示窗口
@@ -107,5 +108,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
 	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 	Plug 'https://github.com/vim-scripts/taglist.vim.git'
+	Plug 'SirVer/ultisnips'
+	Plug 'honza/vim-snippets'
 call plug#end()
 
