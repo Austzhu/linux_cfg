@@ -1,0 +1,104 @@
+#!/bin/bash
+
+TOPDIR=${PWD}
+cd $TOPDIR
+BOOT_TOOL=boot
+PARM_FILE=/tmp/down_temp
+
+usage()
+{
+	echo "usage:"
+	echo "	"${0##*/}" { uboot scpu } [-b boot_file] "\
+	"[-r baudrate]  [-a addr] [-d serial] [nfs]"
+}
+
+check_param()
+{
+	sed -i "s/ *$//g" ${PARM_FILE}
+	[ -z "$DOWNLOAD_SERIAL" ] && echo "serial_oprt is null " && exit 1
+	[ -z "$DOWNLOAD_BAUD"   ] && echo "serial_baud is null " && exit 1
+	[ -z "$BOOT_FILE"       ] && echo "boot_file is null "   && exit 1
+}
+
+analysis_params()
+{
+	while getopts "a:b:d:r:f:" arg ; do
+		case $arg in
+			d)  DOWNLOAD_SERIAL=$OPTARG             ;;
+			r)  DOWNLOAD_BAUD=$OPTARG               ;;
+			b)  BOOT_FILE=${TOPDIR%/*}/${OPTARG#*/} ;;
+			a)  DOWNLOAD_ADDR=$OPTARG               ;;
+			f)	DOWNLOAD_FILE=$OPTARG               ;;
+			?)  usage  && exit 1                    ;;
+		esac
+	done
+
+	echo -e "serial_oprt = $DOWNLOAD_SERIAL\n"\
+			"serial_baud = $DOWNLOAD_BAUD\n"\
+			"boot_file   = $BOOT_FILE\n"\
+			"down_addr   = $DOWNLOAD_ADDR\n"\
+			"down_file   = $DOWNLOAD_FILE" > ${PARM_FILE}
+
+	sed -i "s/^ //g" ${PARM_FILE}
+	check_param
+}
+
+get_params()
+{
+	DOWNLOAD_SERIAL=`awk -F '=' '/serial_oprt/{print $2}' ${PARM_FILE}`
+	DOWNLOAD_BAUD=`  awk -F '=' '/serial_baud/{print $2}' ${PARM_FILE}`
+	BOOT_FILE=`      awk -F '=' '/boot_file/{print $2}'   ${PARM_FILE}`
+	DOWNLOAD_ADDR=`  awk -F '=' '/down_addr/{print $2}'   ${PARM_FILE}`
+	DOWNLOAD_FILE=`  awk -F '=' '/down_file/{print $2}'   ${PARM_FILE}`
+}
+
+down_uboot()
+{
+	local stage1_addr=0x100000
+	local stage2_addr=0x200000
+	local stage1_file=spl/u-boot-spl.bin
+	local stage2_file=u-boot.img
+
+	case $1 in
+		all )	shift && analysis_params $@
+				sudo ${BOOT_TOOL} -r ${DOWNLOAD_BAUD} -b ${BOOT_FILE} \
+				-c serialdown ${stage1_addr} ${stage1_file} -d ${DOWNLOAD_SERIAL}
+				sudo ${BOOT_TOOL} -r ${DOWNLOAD_BAUD} -b ${BOOT_FILE} \
+				-c serialdown ${stage2_addr} ${stage2_file} -d ${DOWNLOAD_SERIAL} ;;
+		stage1) shift && analysis_params $@
+				sudo ${BOOT_TOOL} -r ${DOWNLOAD_BAUD} -b ${BOOT_FILE} \
+				-c serialdown ${stage1_addr} ${stage1_file} -d ${DOWNLOAD_SERIAL} ;;
+		stage2) shift && analysis_params $@
+				sudo ${BOOT_TOOL} -r ${DOWNLOAD_BAUD} -b ${BOOT_FILE} \
+				-c serialdown ${stage2_addr} ${stage2_file} -d ${DOWNLOAD_SERIAL} ;;
+		nfs)	rm -rf /opt/tftpboot/${stage1_file##*/}
+				rm -rf /opt/tftpboot/$stage2_file
+				cp -rf $stage1_file  /opt/tftpboot/
+				cp -rf $stage2_file  /opt/tftpboot/                               ;;
+	esac
+}
+
+down_scpu()
+{
+	local scpu_addr=0
+	local scpu_file=output/gxscpu.bin
+
+	analysis_params $@
+	sudo ${BOOT_TOOL} -r ${DOWNLOAD_BAUD} -b ${BOOT_FILE} \
+				-c serialdown ${scpu_addr} ${scpu_file} -d ${DOWNLOAD_SERIAL}
+}
+
+get_params
+
+case $1 in
+	uboot) shift && down_uboot $@ ;;
+	scpu)  shift && down_scpu  $@ ;;
+	*)     analysis_params     $@
+		   sudo ${BOOT_TOOL} -r ${DOWNLOAD_BAUD} -b ${BOOT_FILE} \
+	 	   -c serialdown ${DOWNLOAD_ADDR} ${DOWNLOAD_FILE} -d ${DOWNLOAD_SERIAL} ;;
+esac
+
+
+exit 0
+
+
