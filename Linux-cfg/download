@@ -1,0 +1,161 @@
+#!/bin/bash
+
+TOPDIR=${PWD}
+cd $TOPDIR
+PARM_FILE=~/.down_param
+
+BTOOL=boot
+uboot_addr1=0x100000
+uboot_addr2=0x200000
+uboot_file1=spl/u-boot-spl.bin
+uboot_file2=u-boot.img
+scpu_addr=0
+scpu_file=output/gxscpu.bin
+
+serial_port=/dev/ttyUSB0
+serial_baud=115200
+boot_file=
+down_addr=
+down_file=
+
+SHORT_OPTS="b:d:r:"
+LONG_OPTS="ub_addr1:,ub_addr2:,ub_file1:,ub_file2:,sc_addr:,sc_file:,dw_addr:,dw_file:,btool:"
+ARGS=`getopt -o $SHORT_OPTS -l $LONG_OPTS -n "${0##*/}" -- "$@"`
+
+[ $? != 0 ] && exit 1
+eval set -- "${ARGS}"
+
+_getopts()
+{
+	while getopts "a:b:d:r:f:" arg ; do
+		case $arg in
+			d)  DOWNLOAD_SERIAL=$OPTARG             ;;
+			r)  DOWNLOAD_BAUD=$OPTARG               ;;
+			b)  BOOT_FILE=${TOPDIR%/*}/${OPTARG#*/} ;;
+			a)  DOWNLOAD_ADDR=$OPTARG               ;;
+			f)	DOWNLOAD_FILE=$OPTARG               ;;
+			?)  usage  && exit 1                    ;;
+		esac
+	done
+}
+
+usage()
+{
+	echo "usage:"
+	echo "	"${0##*/}" { uboot scpu } [-b boot_file] "\
+	"[-r baudrate] [-d serial] [nfs]"
+}
+
+check_param()
+{
+	[ -z "$BTOOL"       ] && echo "boot tools is null  " && exit 1
+	[ -z "$serial_port" ] && echo "serial_port is null " && exit 1
+	[ -z "$serial_baud" ] && echo "serial_baud is null " && exit 1
+	[ -z "$boot_file"   ] && echo "boot_file is null   " && exit 1
+}
+
+get_params()
+{
+	if [ -f ${PARM_FILE} ]; then
+		sed -i "s/ //g" ${PARM_FILE}
+		serial_port=`awk -F '=' '/serial_port/{print $2}' ${PARM_FILE}`
+		serial_baud=`awk -F '=' '/serial_baud/{print $2}' ${PARM_FILE}`
+		boot_file=`  awk -F '=' '/boot_file/{print $2}'   ${PARM_FILE}`
+		down_addr=`  awk -F '=' '/down_addr/{print $2}'   ${PARM_FILE}`
+		down_file=`  awk -F '=' '/down_file/{print $2}'   ${PARM_FILE}`
+		uboot_addr1=`awk -F '=' '/uboot_addr1/{print $2}' ${PARM_FILE}`
+		uboot_addr2=`awk -F '=' '/uboot_addr2/{print $2}' ${PARM_FILE}`
+		uboot_file1=`awk -F '=' '/uboot_file1/{print $2}' ${PARM_FILE}`
+		uboot_file2=`awk -F '=' '/uboot_file2/{print $2}' ${PARM_FILE}`
+		scpu_addr=`  awk -F '=' '/scpu_addr/{print $2}'   ${PARM_FILE}`
+		scpu_file=`  awk -F '=' '/scpu_file/{print $2}'   ${PARM_FILE}`
+		BTOOL=`      awk -F '=' '/BTOOL/{print $2}'       ${PARM_FILE}`
+	fi
+}
+
+down_scpu()
+{
+	[ -z "${scpu_addr}" ] && echo "scpu_addr is null" && exit 1
+	[ -z "${scpu_file}" ] && echo "scpu_file is null" && exit 1
+	sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} \
+		-c serialdown ${scpu_addr} ${scpu_file} -d ${serial_port}
+}
+
+down_uboot()
+{
+	case $1 in
+		all )	shift
+				[ -z "${uboot_addr1}" ] && echo "uboot_addr1 is null" && exit 1
+				[ -z "${uboot_file1}" ] && echo "uboot_file1 is null" && exit 1
+				[ -z "${uboot_addr2}" ] && echo "uboot_addr2 is null" && exit 1
+				[ -z "${uboot_file2}" ] && echo "uboot_file2 is null" && exit 1
+				sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} \
+				-c serialdown ${uboot_addr1} ${uboot_file1} -d ${serial_port}
+				sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} \
+				-c serialdown ${uboot_addr2} ${uboot_file2} -d ${serial_port} ;;
+		stage1) shift
+				[ -z "${uboot_addr1}" ] && echo "uboot_addr1 is null" && exit 1
+				[ -z "${uboot_file1}" ] && echo "uboot_file1 is null" && exit 1
+				sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} \
+				-c serialdown ${uboot_addr1} ${uboot_file1} -d ${serial_port} ;;
+		stage2) shift
+				[ -z "${uboot_addr2}" ] && echo "uboot_addr2 is null" && exit 1
+				[ -z "${uboot_file2}" ] && echo "uboot_file2 is null" && exit 1
+				sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} \
+				-c serialdown ${uboot_addr2} ${uboot_file2} -d ${serial_port} ;;
+		nfs)	rm -rf /opt/tftpboot/${uboot_file1##*/}
+				rm -rf /opt/tftpboot/$uboot_file2
+				cp -rf $uboot_file1  /opt/tftpboot/
+				cp -rf $uboot_file2  /opt/tftpboot/                           ;;
+		*)      usage && exit 1
+	esac
+}
+
+get_params
+
+while true ; do
+	case "$1" in
+		-b) boot_file=${TOPDIR%/*}/${2#*/} && shift 2 ;;
+		-d) serial_port=$2                 && shift 2 ;;
+		-r) serial_baud=$2                 && shift 2 ;;
+		--ub_addr1) uboot_addr1=$2         && shift 2 ;;
+		--ub_addr2) uboot_addr2=$2         && shift 2 ;;
+		--ub_file1) uboot_file1=$2         && shift 2 ;;
+		--ub_file2) uboot_file2=$2         && shift 2 ;;
+		--sc_addr)  scpu_addr=$2           && shift 2 ;;
+		--sc_file)  scpu_file=$2           && shift 2 ;;
+		--dw_addr)  down_addr=$2           && shift 2 ;;
+		--dw_file)  down_file=$2           && shift 2 ;;
+		--btool)    BTOOL=$2               && shift 2 ;;
+		--) shift && break                            ;;
+		*)  echo "Internal error!"         && exit 1  ;;
+	esac
+done
+
+echo -e "serial_port = ${serial_port}\n"            \
+		"serial_baud = ${serial_baud}\n"            \
+		"boot_file   = ${boot_file}\n"              \
+		"down_addr   = ${down_addr}\n"              \
+		"down_file   = ${down_file}\n"              \
+		"uboot_addr1 = ${uboot_addr1}\n"            \
+		"uboot_addr2 = ${uboot_addr2}\n"            \
+		"uboot_file1 = ${uboot_file1}\n"            \
+		"uboot_file2 = ${uboot_file2}\n"            \
+		"scpu_addr   = ${scpu_addr}\n"              \
+		"BTOOL       = ${BTOOL}\n"                  \
+		"scpu_file   = ${scpu_file}\n" > ${PARM_FILE}
+sed -i "s/^ //g" ${PARM_FILE}
+
+check_param
+
+case $1 in
+	uboot) shift && down_uboot $@ ;;
+	scpu)  shift && down_scpu  $@ ;;
+	*)     [ -z "$down_addr" ] && echo "down_addr is null " && exit 1
+		   [ -z "$down_file" ] && echo "down_file is null " && exit 1
+		   sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} \
+	 	   -c serialdown ${down_addr} ${down_file} -d ${serial_port} ;;
+esac
+
+
+exit 0
