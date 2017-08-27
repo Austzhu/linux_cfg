@@ -29,6 +29,7 @@ set smartindent                       " 为C程序提供自动缩进
 set tags=tags;                        " 设置 tags
 set autochdir                         " ctags 在跳转时找不到ctags文件会自动去父目录找
 set background=dark                   " 主题设置成黑模式
+set shiftwidth=4                      " 设置移动宽度
 "set relativenumber                   " 启用相对行号
 
 let Tlist_Sort_Type = "name"          " 按照名称排序
@@ -54,6 +55,10 @@ map!         <F1> <ESC> :po      <cr>i
 map          <F1>       :po      <cr>
 map          <F2>       :tag     <C-r>=expand("<cword>") <cr> <cr>
 map!         <F2> <ESC> :tag     <C-r>=expand("<cword>") <cr> <cr>i
+map          <C-a> <ESC>I<ESC>
+map          <C-e> <ESC>A<ESC>
+map!         <C-a> <ESC>I
+map!         <C-e> <ESC>A
 "inoremap     ( ()<ESC>i
 "inoremap     { {}<ESC>i
 "inoremap     [ []<ESC>i
