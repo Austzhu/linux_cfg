@@ -59,6 +59,10 @@ map          <C-a> <ESC>I<ESC>
 map          <C-e> <ESC>A<ESC>
 map!         <C-a> <ESC>I
 map!         <C-e> <ESC>A
+map          <C-j> <C-f>
+map!         <C-j> <C-f>
+map          <C-k> <C-b>
+map!         <C-k> <C-b>
 "inoremap     ( ()<ESC>i
 "inoremap     { {}<ESC>i
 "inoremap     [ []<ESC>i
@@ -116,7 +120,7 @@ call plug#begin('~/.vim/plugged')
 	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
 	Plug 'godlygeek/tabular'
-	Plug 'plasticboy/vim-markdown'	
+	Plug 'plasticboy/vim-markdown'
 	Plug 'https://github.com/iamcco/markdown-preview.vim.git'
 call plug#end()
 

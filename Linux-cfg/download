@@ -57,20 +57,32 @@ check_param()
 get_params()
 {
 	if [ -f ${PARM_FILE} ]; then
-		sed -i "s/ //g" ${PARM_FILE}
-		serial_port=`awk -F '=' '/serial_port/{print $2}' ${PARM_FILE}`
-		serial_baud=`awk -F '=' '/serial_baud/{print $2}' ${PARM_FILE}`
-		boot_file=`  awk -F '=' '/boot_file/{print $2}'   ${PARM_FILE}`
-		down_addr=`  awk -F '=' '/down_addr/{print $2}'   ${PARM_FILE}`
-		down_file=`  awk -F '=' '/down_file/{print $2}'   ${PARM_FILE}`
-		uboot_addr1=`awk -F '=' '/uboot_addr1/{print $2}' ${PARM_FILE}`
-		uboot_addr2=`awk -F '=' '/uboot_addr2/{print $2}' ${PARM_FILE}`
-		uboot_file1=`awk -F '=' '/uboot_file1/{print $2}' ${PARM_FILE}`
-		uboot_file2=`awk -F '=' '/uboot_file2/{print $2}' ${PARM_FILE}`
-		scpu_addr=`  awk -F '=' '/scpu_addr/{print $2}'   ${PARM_FILE}`
-		scpu_file=`  awk -F '=' '/scpu_file/{print $2}'   ${PARM_FILE}`
-		BTOOL=`      awk -F '=' '/BTOOL/{print $2}'       ${PARM_FILE}`
+
+		serial_port=`awk -F '=' '/^ *serial_port/{print $2}' ${PARM_FILE}`
+		serial_baud=`awk -F '=' '/^ *serial_baud/{print $2}' ${PARM_FILE}`
+		boot_file=`  awk -F '=' '/^ *boot_file/{print $2}'   ${PARM_FILE}`
+		down_addr=`  awk -F '=' '/^ *down_addr/{print $2}'   ${PARM_FILE}`
+		down_file=`  awk -F '=' '/^ *down_file/{print $2}'   ${PARM_FILE}`
+		uboot_addr1=`awk -F '=' '/^ *uboot_addr1/{print $2}' ${PARM_FILE}`
+		uboot_addr2=`awk -F '=' '/^ *uboot_addr2/{print $2}' ${PARM_FILE}`
+		uboot_file1=`awk -F '=' '/^ *uboot_file1/{print $2}' ${PARM_FILE}`
+		uboot_file2=`awk -F '=' '/^ *uboot_file2/{print $2}' ${PARM_FILE}`
+		scpu_addr=`  awk -F '=' '/^ *scpu_addr/{print $2}'   ${PARM_FILE}`
+		scpu_file=`  awk -F '=' '/^ *scpu_file/{print $2}'   ${PARM_FILE}`
+		BTOOL=`      awk -F '=' '/^ *BTOOL/{print $2}'       ${PARM_FILE}`
 	fi
+	#echo "serial_port = "${serial_port}
+	#echo "serial_baud = "${serial_baud}
+	#echo "boot_file   = "${boot_file}
+	#echo "down_addr   = "${down_addr}
+	#echo "down_file   = "${down_file}
+	#echo "uboot_addr1 = "${uboot_addr1}
+	#echo "uboot_addr2 = "${uboot_addr2}
+	#echo "uboot_file1 = "${uboot_file1}
+	#echo "uboot_file2 = "${uboot_file2}
+	#echo "scpu_addr   = "${scpu_addr}
+	#echo "scpu_file   = "${scpu_file}
+	#echo "BTOOL       = "${BTOOL}
 }
 
 down_scpu()
@@ -115,7 +127,8 @@ get_params
 
 while true ; do
 	case "$1" in
-		-b) boot_file=${TOPDIR%/*}/${2#*/} && shift 2 ;;
+		-b) boot_file=${TOPDIR%/*}/${2#*/} && shift 2
+		echo $boot_file  ;;
 		-d) serial_port=$2                 && shift 2 ;;
 		-r) serial_baud=$2                 && shift 2 ;;
 		--ub_addr1) uboot_addr1=$2         && shift 2 ;;
