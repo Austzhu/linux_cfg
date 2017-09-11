@@ -48,7 +48,7 @@ filetype     indent on                " 为特定文件类型载入相关缩进�
 filetype     plugin on                " 允许插件
 syntax       on                       " 语法高亮
 syntax       enable
-colorscheme  solarized
+"colorscheme  solarized
 
 map          <F3>       :NERDTreeToggle <CR>      " 列出当前目录文件
 map!         <F1> <ESC> :po      <cr>i

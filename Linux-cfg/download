@@ -157,7 +157,10 @@ echo -e "serial_port = ${serial_port}\n"            \
 		"scpu_addr   = ${scpu_addr}\n"              \
 		"BTOOL       = ${BTOOL}\n"                  \
 		"scpu_file   = ${scpu_file}\n" > ${PARM_FILE}
-sed -i "s/^ //g" ${PARM_FILE}
+
+sed -i "s/^ *//g"   ${PARM_FILE}
+sed -i "s/= */= /g" ${PARM_FILE}
+sed -i "s/ *$//g"   ${PARM_FILE}
 
 check_param
 
