@@ -149,6 +149,8 @@ export PATH=/usr/local/compiler/arm-linux/bin:$PATH
 alias repo_v1.9='repo init -u http://192.168.110.254/git/goxceed/manifests.git -b v1.9-dev'
 #alias makeenv='export ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi-'
 alias makeenv='export ARCH=arm CROSS_COMPILE=arm-none-eabi-'
-alias makeuboot='make distclean && make robot_defconfig'
+alias makeuboot='make distclean && make leo_mpw_dev_2v_defconfig'
 
 export TERM=xterm-256color
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
