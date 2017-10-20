@@ -15,7 +15,7 @@ set autowrite                         " 自动保存
 set cursorline                        " 突出显示当前行
 set confirm                           " 在处理未保存或只读文件的时候，弹出确认
 set autoindent                        " 自动缩进
-set tabstop=4                         " Tab键的宽度
+set tabstop=8                         " Tab键的宽度
 set noexpandtab                       " 不要用空格代替制表符
 set smarttab                          " 在行和段开始处使用制表符
 set number                            " 显示行号
