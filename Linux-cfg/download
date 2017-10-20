@@ -18,7 +18,7 @@ boot_file=
 down_addr=
 down_file=
 
-SHORT_OPTS="b:d:r:"
+SHORT_OPTS="b:d:r:hV"
 LONG_OPTS="ub_addr1:,ub_addr2:,ub_file1:,ub_file2:,sc_addr:,sc_file:,dw_addr:,dw_file:,btool:"
 ARGS=`getopt -o $SHORT_OPTS -l $LONG_OPTS -n "${0##*/}" -- "$@"`
 
@@ -42,8 +42,26 @@ _getopts()
 usage()
 {
 	echo "usage:"
-	echo "	"${0##*/}" { uboot scpu } [-b boot_file] "\
-	"[-r baudrate] [-d serial] [nfs]"
+	echo "	"${0##*/}" < uboot | scpu | nfs > [-b boot_file] "\
+	"[-r baudrate] [-d serial] [ ... ]"
+	echo "
+	-b:		download boot file
+	-d:		download serial port
+	-r:		serial baudrate
+	--ub_addr1:	uboot stage1 download addr
+	--ub_addr2:	uboot stage2 download addr
+	--ub_file1:	uboot stage1 download file
+	--ub_file2:	uboot stage2 download file
+	--sc_addr:	scpu  download addr
+	--sc_file:	scpu download file
+	--dw_addr:	other download addr
+	--dw_file:	other download file
+	--btool:	download boot tools
+	eg: download uboot stage1
+	    download uboot all
+	    download scpu
+	    download uboot stage1 --btool /bin/boot -b ~/burn/gxscpu.boot -d /dev/ttyUSB1
+	"
 }
 
 check_param()
@@ -96,22 +114,22 @@ down_uboot()
 {
 	case $1 in
 		all )	shift
-			[ -z "${uboot_addr1}" ] && echo "uboot_addr1 is null" && exit 1
-			[ -z "${uboot_file1}" ] && echo "uboot_file1 is null" && exit 1
-			[ -z "${uboot_addr2}" ] && echo "uboot_addr2 is null" && exit 1
-			[ -z "${uboot_file2}" ] && echo "uboot_file2 is null" && exit 1
+			[ -z "${uboot_addr1}" ] && echo "uboot_addr1 is null" usage && exit 1
+			[ -z "${uboot_file1}" ] && echo "uboot_file1 is null" usage && exit 1
+			[ -z "${uboot_addr2}" ] && echo "uboot_addr2 is null" usage && exit 1
+			[ -z "${uboot_file2}" ] && echo "uboot_file2 is null" usage && exit 1
 			sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} -c serialdown              \
 				${uboot_addr1} ${uboot_file1} -d ${serial_port}
 			sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} -c serialdown              \
 				${uboot_addr2} ${uboot_file2} -d ${serial_port} ;;
 		stage1)	shift
-			[ -z "${uboot_addr1}" ] && echo "uboot_addr1 is null" && exit 1
-			[ -z "${uboot_file1}" ] && echo "uboot_file1 is null" && exit 1
+			[ -z "${uboot_addr1}" ] && echo "uboot_addr1 is null" usage && exit 1
+			[ -z "${uboot_file1}" ] && echo "uboot_file1 is null" usage && exit 1
 			sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} -c serialdown              \
 				${uboot_addr1} ${uboot_file1} -d ${serial_port} ;;
 		stage2)	shift
-			[ -z "${uboot_addr2}" ] && echo "uboot_addr2 is null" && exit 1
-			[ -z "${uboot_file2}" ] && echo "uboot_file2 is null" && exit 1
+			[ -z "${uboot_addr2}" ] && echo "uboot_addr2 is null" usage && exit 1
+			[ -z "${uboot_file2}" ] && echo "uboot_file2 is null" usage && exit 1
 			sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} -c serialdown \
 				${uboot_addr2} ${uboot_file2} -d ${serial_port} ;;
 		nfs)	cp -rf $uboot_file1  /opt/tftpboot/
@@ -127,6 +145,8 @@ while true ; do
 		-b) boot_file=${TOPDIR%/*}/${2#*/}	&& shift 2 ;;
 		-d)		serial_port=$2		&& shift 2 ;;
 		-r)		serial_baud=$2		&& shift 2 ;;
+		-h)		usage			&& exit  0 ;;
+		-V)		usage			&& exit  0 ;;
 		--ub_addr1)	uboot_addr1=$2		&& shift 2 ;;
 		--ub_addr2)	uboot_addr2=$2		&& shift 2 ;;
 		--ub_file1)	uboot_file1=$2		&& shift 2 ;;
@@ -163,8 +183,8 @@ check_param
 case $1 in
 	uboot)	shift && down_uboot $@ ;;
 	scpu)	shift && down_scpu  $@ ;;
-	*)	[ -z "$down_addr" ] && echo "down_addr is null " && exit 1
-		[ -z "$down_file" ] && echo "down_file is null " && exit 1
+	*)	[ -z "$down_addr" ] && echo "down_addr is null " && usage && exit 1
+		[ -z "$down_file" ] && echo "down_file is null " && usage &&  exit 1
 		sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} -c serialdown
 			${down_addr} ${down_file} -d ${serial_port} ;;
 esac
