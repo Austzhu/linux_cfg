@@ -150,7 +150,8 @@ alias repo_v1.9='repo init -u http://192.168.110.254/git/goxceed/manifests.git -
 #alias makeenv='export ARCH=arm CROSS_COMPILE=arm-none-linux-gnueabi-'
 alias makeenv='export ARCH=arm CROSS_COMPILE=arm-none-eabi-'
 alias makeuboot='make distclean && make leo_mpw_ssd_1v_defconfig'
-
+alias docker='sudo docker'
 export TERM=xterm-256color
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+

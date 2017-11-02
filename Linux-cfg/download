@@ -2,9 +2,9 @@
 
 TOPDIR=${PWD}
 cd $TOPDIR
-PARM_FILE=~/.down_param
+PARM_FILE=~/.bootx/down_param
 
-BTOOL=boot
+BTOOL=bootx
 uboot_addr1=0x100000
 uboot_addr2=0x180000
 uboot_file1=spl/u-boot-spl.bin
@@ -142,7 +142,7 @@ get_params
 
 while true ; do
 	case "$1" in
-		-b) boot_file=${TOPDIR%/*}/${2#*/}	&& shift 2 ;;
+		-b) boot_file=`readlink -f  $2 `	&& shift 2 ;;
 		-d)		serial_port=$2		&& shift 2 ;;
 		-r)		serial_baud=$2		&& shift 2 ;;
 		-h)		usage			&& exit  0 ;;
