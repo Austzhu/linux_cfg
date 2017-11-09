@@ -1,127 +1,152 @@
-set helplang=cn
-set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
+
 set termencoding=utf-8
 set encoding=utf-8
 set fileencodings=ucs-bom,utf-8,cp936
 set fileencoding=utf-8
 set enc=utf-8
-set langmenu=zh_CN.UTF-8              " 语言设置
-set ruler                             " 显示标尺
-set autoread                          " 设置当文件被改动时自动载入
-set completeopt=preview,menu          " 代码补全
-set clipboard+=unnamed                " 共享剪贴板
-set nobackup                          " 从不备份
-set autowrite                         " 自动保存
-set cursorline                        " 突出显示当前行
-set confirm                           " 在处理未保存或只读文件的时候，弹出确认
-set autoindent                        " 自动缩进
-set tabstop=8                         " Tab键的宽度
-set noexpandtab                       " 不要用空格代替制表符
-set smarttab                          " 在行和段开始处使用制表符
-set number                            " 显示行号
-set noswapfile                        " 不要生成swap文件
-set ignorecase                        " 搜索忽略大小写
-set hlsearch                          " 搜索逐字符高亮
-set iskeyword+=_,$,@,%,#,-            " 带有如下符号的单词不要被换行分割
-set showmatch                         " 高亮显示匹配的括号
-set matchtime=1                       " 匹配括号高亮的时间（单位是十分之一秒）
-set smartindent                       " 为C程序提供自动缩进
-set tags=tags;                        " 设置 tags
-set autochdir                         " ctags 在跳转时找不到ctags文件会自动去父目录找
-set background=dark                   " 主题设置成黑模式
-set shiftwidth=4                      " 设置移动宽度
-"set relativenumber                   " 启用相对行号
+set langmenu=zh_CN.UTF-8		" 语言设置
+set ruler				" 显示标尺
+set autoread				" 设置当文件被改动时自动载入
+set completeopt=preview,menu		" 代码补全
+set clipboard+=unnamed			" 共享剪贴板
+set nobackup				" 从不备份
+set autowrite				" 自动保存
+set cursorline				" 突出显示当前行
+set confirm				" 在处理未保存或只读文件的时候，弹出确认
+set autoindent				" 自动缩进
+set tabstop=8				" Tab键的宽度
+set noexpandtab				" 不要用空格代替制表符
+set smarttab				" 在行和段开始处使用制表符
+set number				" 显示行号
+set noswapfile				" 不要生成swap文件
+set ignorecase				" 搜索忽略大小写
+set hlsearch				" 搜索逐字符高亮
+set iskeyword+=_,$,@,%,#,-		" 带有如下符号的单词不要被换行分割
+set showmatch				" 高亮显示匹配的括号
+set matchtime=1				" 匹配括号高亮的时间（单位是十分之一秒）
+set smartindent				" 为C程序提供自动缩进
+set tags=tags;				" 设置 tags
+set autochdir				" ctags 在跳转时找不到ctags文件会自动去父目录找
+set background=dark			" 主题设置成黑模式
+set shiftwidth=8			" 设置移动宽度
+set nofoldenable			" 关闭自动折叠代码功能
+set cc=100				" 设置右边标尺
+" set paste				" 关闭黏贴时乱缩进
+"set relativenumber			" 启用相对行号
 
-let Tlist_Sort_Type = "name"          " 按照名称排序
-let Tlist_Use_Right_Window = 0        " 在右侧显示窗口
-let Tlist_Compart_Format = 1          " 压缩方式
-let Tlist_Exist_OnlyWindow = 1        " 如果只有一个buffer，kill窗口也kill掉buffer
-let Tlist_File_Fold_Auto_Close = 0    " 不要关闭其他文件的tags
-let Tlist_Enable_Fold_Column = 0      " 不要显示折叠树
-let Tlist_Show_One_File = 1           " 不同时显示多个文件的tag，只显示当前文件的
-let Tlist_Exit_OnlyWindow = 1         " 如果taglist窗口是最后一个窗口，则退出vim
+let Tlist_Sort_Type = "name"		" 按照名称排序
+let Tlist_Use_Right_Window = 0		" 在右侧显示窗口
+let Tlist_Compart_Format = 1		" 压缩方式
+let Tlist_Exist_OnlyWindow = 1		" 如果只有一个buffer，kill窗口也kill掉buffer
+let Tlist_File_Fold_Auto_Close = 0	" 不要关闭其他文件的tags
+let Tlist_Enable_Fold_Column = 0	" 不要显示折叠树
+let Tlist_Show_One_File = 1		" 不同时显示多个文件的tag，只显示当前文件的
+let Tlist_Exit_OnlyWindow = 1		" 如果taglist窗口是最后一个窗口，则退出vim
 let Tlist_Auto_Open=0
 let Tlist_Ctags_Cmd = '/usr/bin/ctags'
 
-filetype     on                       " 侦测文件类型
-filetype     indent on                " 为特定文件类型载入相关缩进文件
-filetype     plugin on                " 允许插件
-syntax       on                       " 语法高亮
+if has("cscope")
+	set csprg=/usr/bin/cscope
+	set csto=1
+	set cst
+	set nocsverb
+	" add any database in current directory
+	if filereadable("cscope.out")
+		cs add cscope.out
+	elseif $CSCOPE_DB != ""
+		cs add $CSCOPE_DB
+	endif
+	set csverb
+
+	map <C-\>s :cs find s <C-R>=expand("<cword>")<CR><CR>
+	map <C-\>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+	map <C-\>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+	map <C-\>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+	map <C-\>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+	map <C-\>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+	map <C-\>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+	map <C-\>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+
+	map! <C-\>s <ESC> :cs find s <C-R>=expand("<cword>")<CR><CR>
+	map! <C-\>g <ESC> :cs find g <C-R>=expand("<cword>")<CR><CR>
+	map! <C-\>c <ESC> :cs find c <C-R>=expand("<cword>")<CR><CR>
+	map! <C-\>t <ESC> :cs find t <C-R>=expand("<cword>")<CR><CR>
+	map! <C-\>e <ESC> :cs find e <C-R>=expand("<cword>")<CR><CR>
+	map! <C-\>f <ESC> :cs find f <C-R>=expand("<cfile>")<CR><CR>
+	map! <C-\>i <ESC> :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+	map! <C-\>d <ESC> :cs find d <C-R>=expand("<cword>")<CR><CR>
+endif
+
+filetype     on						" 侦测文件类型
+filetype     indent on					" 为特定文件类型载入相关缩进文件
+filetype     plugin on					" 允许插件
+syntax       on						" 语法高亮
 syntax       enable
-"colorscheme  solarized
+" colorscheme  solarized
+map	<F10> 		:set paste <CR>			" 关闭黏贴排序出错
+map!	<F10> <ESC> 	:set paste <CR>
+map	<F3> 		:NERDTreeToggle <CR>		" 列出当前目录文件
+map!	<F1> <ESC> 	:po  <cr>i
+map	<F1> 		:po  <cr>
+map	<F2> 		:tag <C-r>=expand("<cword>") <cr> <cr>
+map!	<F2> <ESC> 	:tag <C-r>=expand("<cword>") <cr> <cr>i
+map	<C-a> <ESC>I<ESC>
+map	<C-e> <ESC>A<ESC>
+map!	<C-a> <ESC>I
+map!	<C-e> <ESC>A
+map	<C-j> <C-f>
+map!	<C-j> <C-f>
+map	<C-k> <C-b>
+map!	<C-k> <C-b>
+" inoremap	( ()<ESC>i
+" inoremap	{ {}<ESC>i
+" inoremap	[ []<ESC>i
+" inoremap	" ""<ESC>i
+" inoremap	' ''<ESC>i
 
-map          <F3>       :NERDTreeToggle <CR>      " 列出当前目录文件
-map!         <F1> <ESC> :po      <cr>i
-map          <F1>       :po      <cr>
-map          <F2>       :tag     <C-r>=expand("<cword>") <cr> <cr>
-map!         <F2> <ESC> :tag     <C-r>=expand("<cword>") <cr> <cr>i
-map          <C-a> <ESC>I<ESC>
-map          <C-e> <ESC>A<ESC>
-map!         <C-a> <ESC>I
-map!         <C-e> <ESC>A
-map          <C-j> <C-f>
-map!         <C-j> <C-f>
-map          <C-k> <C-b>
-map!         <C-k> <C-b>
-"inoremap     ( ()<ESC>i
-"inoremap     { {}<ESC>i
-"inoremap     [ []<ESC>i
-"inoremap     " ""<ESC>i
-"inoremap     ' ''<ESC>i
-nnoremap     <leader>f  :%s/\s\+$//<cr>     " 删除行尾空格
+nnoremap	<leader>f	:%s/\s\+$//<cr>		" 删除行尾空格
+" autocmd	BufWritePre *	:%s/[ 	]*$//g		" 保存或退出时删除尾部的空格和tab
 
-"新建.c,.h,.sh,.java文件，自动插入文件头
-autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec ":call SetTitle()"
-func SetTitle()                                    "定义函数SetTitle，自动插入文件头
-	"如果文件类型为.sh文件
-	if &filetype == 'sh'
-		call setline(1, "\#!/bin/bash")
-	else
-		call setline(1, "/********************************************************************")
-		call append(line("."), "	> File Name:	".expand("%"))
-		call append(line(".")+1, "	> Author:		Austzhu")
-		call append(line(".")+2, "	> Mail:			153462902@qq.com.com ")
-		call append(line(".")+3, "	> Created Time:	".strftime("%c"))
-		call append(line(".")+4, " *******************************************************************/")
-		call append(line(".")+5, "")
-	endif
-	if &filetype == 'cpp'
-		call append(line(".")+6, "#include <iostream>")
-		call append(line(".")+7, "using namespace std;")
-		call append(line(".")+8, "")
-	endif
-	if &filetype == 'c'
-		call append(line(".")+6, "#include <stdio.h>")
-		call append(line(".")+7, "")
-	endif
-	"新建文件后，自动定位到文件末尾
-	autocmd BufNewFile * normal G
-endfunc
+" 新建.c,.h,.sh,.java文件，自动插入文件头
+" autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec ":call SetTitle()"
+" func SetTitle()					"定义函数SetTitle，自动插入文件头
+" 	"如果文件类型为.sh文件
+" 	if &filetype == 'sh'
+" 		call setline(1, "\#!/bin/bash")
+" 	else
+" 		call setline(1, "/********************************************************************")
+" 		call append(line("."), "	> File Name:	".expand("%"))
+" 		call append(line(".")+1, "	> Author:		Austzhu")
+" 		call append(line(".")+2, "	> Mail:			153462902@qq.com.com ")
+" 		call append(line(".")+3, "	> Created Time:	".strftime("%c"))
+" 		call append(line(".")+4, " *******************************************************************/")
+" 		call append(line(".")+5, "")
+" 	endif
+" 	if &filetype == 'cpp'
+" 		call append(line(".")+6, "#include <iostream>")
+" 		call append(line(".")+7, "using namespace std;")
+" 		call append(line(".")+8, "")
+" 	endif
+" 	if &filetype == 'c'
+" 		call append(line(".")+6, "#include <stdio.h>")
+" 		call append(line(".")+7, "")
+" 	endif
+" 	"新建文件后，自动定位到文件末尾
+" 	autocmd BufNewFile * normal G
+" endfunc
 
 set mouse=v
 "set selection=exclusive
 "set selectmode=mouse,key
-":nnoremap a i
-":nnoremap i k
-":nnoremap k j
-":nnoremap j h
 
 " vim-plug 插件管理器调用
 call plug#begin('~/.vim/plugged')
-	Plug 'junegunn/vim-easy-align'
 	Plug 'https://github.com/junegunn/vim-github-dashboard.git'
 	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 	Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-	Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 	Plug 'fatih/vim-go', { 'tag': '*' }
-	Plug 'nsf/gocode', { 'tag': 'v.20150303', 'rtp': 'vim' }
-	Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 	Plug 'https://github.com/vim-scripts/taglist.vim.git'
-	Plug 'SirVer/ultisnips'
 	Plug 'honza/vim-snippets'
-	Plug 'godlygeek/tabular'
 	Plug 'plasticboy/vim-markdown'
 	Plug 'https://github.com/iamcco/markdown-preview.vim.git'
-	Plug 'godlygeek/tabular'
 call plug#end()
-

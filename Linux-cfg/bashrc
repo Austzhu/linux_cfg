@@ -153,5 +153,6 @@ alias makeuboot='make distclean && make leo_mpw_ssd_1v_defconfig'
 alias docker='sudo docker'
 export TERM=xterm-256color
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
+GREP_OPTION="--exclude=\.tags*"
+alias grep='grep --color=auto ${GREP_OPTION}'
+alias csrbq="cscope -Rbq; find . -type f > cscope.files"
