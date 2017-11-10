@@ -1,25 +1,34 @@
 [
-	{
-		"command": "navigate_to_definition",
-		"keys": ["ctrl+w"]
-	},
-	{
-		"command": "jump_prev",
-		"keys": ["ctrl+q"]
-	},
-	{
-		"command": "show_panel", "args": {"panel": "find_in_files"} ,
-		"keys": ["ctrl+alt+f"]
+    {
+        "command": "navigate_to_definition",
+        "keys": ["f2"]
+    },
+    {
+        "command": "jump_prev",
+        "keys": ["f1"]
+    },
+    {
+        "command": "show_panel", "args": {"panel": "find_in_files"} ,
+        "keys": ["ctrl+alt+f"]
 
-	},
-	{
-		"command": "prompt_select_workspace",
-		"keys": ["ctrl+tab"]
-	},
-	{
-		"keys":["ctrl+alt+up"],"command":"select_lines","args":{"forward":false}
-	},
-	{
-		"keys":["ctrl+alt+down"],"command":"select_lines","args":{"forward":true}
-	},
+    },
+    {
+        "command": "prompt_select_workspace",
+        "keys": ["ctrl+tab"]
+    },
+    {
+        "keys":["ctrl+up"],"command":"select_lines","args":{"forward":false}
+    },
+    {
+        "keys":["ctrl+down"],"command":"select_lines","args":{"forward":true}
+    },
+    {
+        "keys": ["ctrl+shift+t"], "command": "open_terminal"
+    },
+
+    { "keys": ["alt+d"], "command": "open_include"},
+    { "keys": ["ctrl+alt+o"], "command": "open_file_from_env" },
+    { "keys": ["alt+a"], "command": "move_to", "args": {"to": "bol", "extend": false} },
+    { "keys": ["alt+q"], "command": "move_to", "args": {"to": "eol", "extend": false} },
+    { "keys": ["alt+m"], "command": "markdown_preview", "args": {"target": "browser", "parser":"github"}  },
 ]
