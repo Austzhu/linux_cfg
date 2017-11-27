@@ -2,6 +2,7 @@
 
 TOPDIR=${PWD}
 cd $TOPDIR
+
 PARM_FILE=~/.bootx/down_param
 
 BTOOL=bootx
@@ -120,6 +121,7 @@ down_uboot()
 			[ -z "${uboot_file2}" ] && echo "uboot_file2 is null" usage && exit 1
 			sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} -c serialdown              \
 				${uboot_addr1} ${uboot_file1} -d ${serial_port}
+			sleep 1
 			sudo ${BTOOL} -r ${serial_baud} -b ${boot_file} -c serialdown              \
 				${uboot_addr2} ${uboot_file2} -d ${serial_port} ;;
 		stage1)	shift
